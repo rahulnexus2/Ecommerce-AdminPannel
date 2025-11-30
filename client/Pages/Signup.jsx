@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form";
-
 import React from 'react'
 
-const Login = () => {
-    const {
+const Signup = () => {
+
+   
+          const {
       register,
       handleSubmit,
       watch,
@@ -16,8 +16,19 @@ const Login = () => {
     <div>
       <h1>Login Page</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-       
-
+        <input
+        placeholder="Enter username"
+         {...register("username",
+          {
+          required:{message:"username is required"}
+          ,maxLength:{value:10,message:"username cannot exceed 10 characters"},
+          minLength:{value:5,message:"username must be atleast 5 characters"}
+          }
+          )}
+          />
+          {errors.username && (
+  <p className="text-red-600">{errors.username.message}</p>
+)}
           <input
         placeholder="Enter email"
          {...register("email",
@@ -53,9 +64,9 @@ const Login = () => {
       
       
       </form>
-      
     </div>
+  
   )
 }
 
-export default Login
+export default Signup
