@@ -2,6 +2,7 @@ import React from 'react'
 import {Routes,Route} from 'react-router-dom'
 import Login from '../Pages/Login'
 import Signup from '../Pages/SIgnup'
+import PublicLayout from '../Layouts/PublicLayout'
 
 
 const Approute = () => {
@@ -9,8 +10,7 @@ const Approute = () => {
     <div>
       {/*Public Routes */}
       <Routes>
-
-        <Route element={}>
+        <Route path="/" element={<PublicLayout/>}>
         <Route path='signup' element={<Signup/>}/>
         <Route path='login' element={<Login/>}/>
         </Route>
