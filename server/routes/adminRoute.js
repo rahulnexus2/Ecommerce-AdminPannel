@@ -6,6 +6,6 @@ const router=express.Router();
 
 
 router.post("/signup",signupAuth,signupController);
-//router.post("/login")
+router.post("/login")
 
 export default router
