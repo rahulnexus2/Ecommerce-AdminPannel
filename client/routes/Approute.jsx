@@ -1,7 +1,7 @@
 import React from 'react'
 import {Routes,Route, Navigate} from 'react-router-dom'
 import Login from '../Pages/Login'
-import Signup from '../Pages/Signup'
+import Signup from '../Pages/SIgnup'
 import PublicLayout from '../Layouts/PublicLayout'
 
 

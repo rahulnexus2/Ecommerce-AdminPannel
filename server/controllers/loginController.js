@@ -1,7 +1,7 @@
-import user from "../models/userModel"
+import User from "../models/userModel.js"
 import jwt from "jsonwebtoken"
-import loginAuth from "../Auth/loginAuth"
-import config from "../config/config"
+
+import config from "../config/config.js"
 
 
 const loginController=async(req,res,next)=>{
@@ -10,8 +10,8 @@ const loginController=async(req,res,next)=>{
 
     const token=jwt.sign({
       
-        id:user.id,
-        email:user.email,
+        id:User.id,
+        email:User.email,
 
       },
       config.jwt_secret,
@@ -24,16 +24,11 @@ const loginController=async(req,res,next)=>{
       message:"login sucessfull",
       token,
       user:{
-        id: user._id,
-        name: user.name,
-        email: user.email,
+        id: User._id,
+        name: User.name,
+        email: User.email,
       }
     })
-
-
-
-
-
 
   }catch(error)
   {

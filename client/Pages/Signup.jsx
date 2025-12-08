@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const Signup = () => {
   const {
@@ -9,7 +10,13 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) =>{
+    try{
+      const res=axios.post("api/v1")
+
+     console.log(data);
+    }catch(){}
+  }
 
   return (
     <div>
@@ -18,7 +25,7 @@ const Signup = () => {
         <input
           placeholder="Enter username"
           {...register("username", {
-            required: { message: "username is required" },
+            required: { value:true,message: "username is required" },
             maxLength: {
               value: 10,
               message: "username cannot exceed 10 characters",

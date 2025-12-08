@@ -1,11 +1,11 @@
 import express from "express";
-import user from "../models/userModel.js";
+import User from "../models/userModel.js";
 
 const signupAuth=async(req,res,next)=>{
   try{
   const {email}=req.body;
 
-  const existingUser=await user.findOne({email});
+  const existingUser=await User.findOne({email});
 
   if(existingUser)
   {

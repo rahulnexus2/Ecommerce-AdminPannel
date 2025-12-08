@@ -49,6 +49,8 @@ const Login = () => {
   <p className="text-red-600">{errors.password.message}</p>
 )}
           <input type="submit" />
+
+        <button>forgot password ?</button>
       
       
       </form>

@@ -1,5 +1,5 @@
 import express from "express"
-import user from "../models/userModel.js"
+import User from "../models/userModel.js"
 import config from "../config/config.js"
 import bcrypt from "bcryptjs"
 
@@ -13,7 +13,7 @@ const signupController=async(req,res,next)=>{
 
     if(role=="admin")
     {
-      const newAdmin=new user({
+      const newAdmin=new User({
         username:username,
         email:email,
         password:hashPass,
@@ -21,7 +21,7 @@ const signupController=async(req,res,next)=>{
       })
 
       await newAdmin.save();
-      res.status(201).res.json({
+      res.status(201).json({
         message:"sucessfully signedup as admin",
         id:newAdmin._id,
         email:newAdmin.email
@@ -30,7 +30,7 @@ const signupController=async(req,res,next)=>{
     }
      else
     {
-      const newUser=new user({
+      const newUser=new User({
         username:username,
         email:email,
         password:hashPass,
@@ -38,7 +38,7 @@ const signupController=async(req,res,next)=>{
       })
 
       await newUser.save();
-      res.status(201).res,json({
+      res.status(201).json({
         message:"sucessfully signedup as user",
         id:newUser._id,
         email:newUser.email

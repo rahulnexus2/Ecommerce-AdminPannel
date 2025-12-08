@@ -3,11 +3,13 @@ import cors from "cors";
 import ConnectDb from "./config/db.js";
 import config from "./config/config.js";
 import adminRoute from "./routes/adminRoute.js"
+import userRoute from "./routes/userRoute.js"
 
 
 const app = express();
 const port = config.port;
 
+app.use(cors());
 app.use(express.json());
 
 
@@ -18,7 +20,7 @@ app.get("/", (req, res) => {
 
 
 app.use("/api/v1/admin",adminRoute)
-//app.use("/api/v1/user",userRoute);
+app.use("/api/v1/user",userRoute);
 
 
 
