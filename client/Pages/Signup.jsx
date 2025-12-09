@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
+import { useLocation } from "react-router-dom";
+
 const Signup = () => {
   const {
     register,
@@ -12,10 +14,21 @@ const Signup = () => {
 
   const onSubmit = (data) =>{
     try{
-      const res=axios.post("api/v1")
+      const isAdmin=location.pathname.includes("admin");
 
-     console.log(data);
-    }catch(){}
+      const url=isAdmin
+                        ?"http://localhost:8000/api/v1/admin/signup"
+                        :"http://localhost:8000/api/v1/user/signup";
+     
+      const res=axios.post(url,data);
+
+
+     console.log(res.data);
+     alert(isAdmin?"Admin SignedUp":"User Signedup")
+    }catch(error){
+       console.log(error);
+    alert("Signup Failed!");
+    }
   }
 
   return (
