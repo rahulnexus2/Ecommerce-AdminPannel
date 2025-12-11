@@ -1,30 +1,28 @@
 import React from 'react'
-import {Routes,Route, Navigate} from 'react-router-dom'
+import {Route,Routes} from 'react-router-dom'
+import Signup from '../Pages/SIgnup'
 import Login from '../Pages/Login'
-import Signup from '../Pages/Signup'
-import PublicLayout from '../Layouts/PublicLayout'
-
+import Home from '../Pages/Home'
 
 const Approute = () => {
   return (
     <div>
-      {/*Public Routes */}
       <Routes>
+      
+      
+      <Route path="/user" >
+      <Route path="signup" element={<Signup/>} />
+      <Route path="login" element={<Login/>} />
+      </Route>
 
-        <Route element={<PublicLayout/>}>
-
-        <Route path='/'element={<Login/>}/>
-        <Route path='/signup' element={<Signup/>}/>
-        <Route path='/login' element={<Login/>}/>
-
-
-        <Route path='/admin/login' element={<Login/>}/>
-        <Route path='/admin/signup' element={<Signup/>}/>
-
-        </Route>
+    <Route path="/admin">
+    <Route path="signup" element={<Signup/>}/>
+    <Route path="login" element={<Login/>}/> 
+    </Route>
+    
 
       </Routes>
-
+      
       
     </div>
   )

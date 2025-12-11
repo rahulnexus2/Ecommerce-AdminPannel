@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 const AuthNav = () => {
   return (
     <div>
-      <Link to='/admin/login'>Admin</Link>
-      <Link to='/login'>User</Link>
+      <Link to='/admin/signup'>Admin</Link>
+      <Link to='/user/signup'>User</Link>
       
 
       
