@@ -4,6 +4,7 @@ import ConnectDb from "./config/db.js";
 import config from "./config/config.js";
 import adminRoute from "./routes/adminRoute.js"
 import userRoute from "./routes/userRoute.js"
+import authRoute from "./routes/authRoute.js"
 
 
 const app = express();
@@ -19,8 +20,9 @@ app.get("/", (req, res) => {
 
 
 
-app.use("/api/v1/admin",adminRoute)
-app.use("/api/v1/user",userRoute);
+app.use("/api/v1/auth", authRoute);   
+app.use("/api/v1/user", userRoute);   
+app.use("/api/v1/admin", adminRoute); 
 
 
 

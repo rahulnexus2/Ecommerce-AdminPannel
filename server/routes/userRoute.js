@@ -1,15 +1,25 @@
 import express from "express";
-import signupAuth from "../Auth/signupAuth.js";
-import signupController from "../controllers/signupController.js";
-import loginAuth from "../Auth/loginAuth.js";
-import loginController from "../controllers/loginController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+
+const router = express.Router();
 
 
-const router =express.Router();
+router.use(authMiddleware);
 
 
-router.post("/signup",signupAuth,signupController);
-router.post("/login",loginAuth,loginController);
+router.get("/profile", (req, res) => {
+  res.status(200).json({
+    message: "User profile fetched successfully",
+    user: req.user,
+  });
+});
 
 
-export default router
+router.get("/orders", (req, res) => {
+  res.status(200).json({
+    message: "User orders fetched",
+    userId: req.user.id,
+  });
+});
+
+export default router;

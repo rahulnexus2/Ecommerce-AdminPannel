@@ -11,10 +11,17 @@ const UserModel=new mongoose.Schema({
   email:{
     type:String,
     unique:true,
-    required:true
+    required:true,
+    lowercase:true,
+    trim:true
   },
 
-  password:String,
+  password:{
+    type:String,
+    required:true,
+    select:false,
+  },
+
 
   role:{
     type:String,
@@ -23,13 +30,13 @@ const UserModel=new mongoose.Schema({
     required:true,
   },
 
-  createdAt:{
-    type:Date,
-    default:Date.now
+  
 
+},
+{
+    timestamp:true
   }
-
-})
+)
 
 const User=mongoose.model("user",UserModel);
 

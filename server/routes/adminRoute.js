@@ -1,15 +1,26 @@
-import express from "express"
-import signupAuth from "../Auth/signupAuth.js"
-import signupController from "../controllers/signupController.js";
-import loginAuth from "../Auth/loginAuth.js";
-import loginController from "../controllers/loginController.js";
+import express from "express";
+import authMiddleware from "../middleware/authMiddleware.js";
+import adminMiddleware from "../middleware/adminMiddleware.js";
+
+const router = express.Router();
 
 
-const router=express.Router();
+router.use(authMiddleware);
+router.use(adminMiddleware);
 
 
+router.get("/dashboard", (req, res) => {
+  res.status(200).json({
+    message: "Admin dashboard accessed",
+    admin: req.user,
+  });
+});
 
-router.post("/signup",signupAuth,signupController);
-router.post("/login",loginAuth,loginController);
 
-export default router
+router.post("/products", (req, res) => {
+  res.status(201).json({
+    message: "Product created (admin only)",
+  });
+});
+
+export default router;

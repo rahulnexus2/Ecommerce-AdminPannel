@@ -1,33 +1,43 @@
 import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
 
+const loginAuth = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-const loginAuth=async(req,res,next)=>{
-  try{
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
 
-    const {email,password}=req.body;
+    
+    const user = await User.findOne({ email }).select("+password");
 
-    const user=await User.findOne({email})
-    if(!user)
-      {
-        return res.status(400).json({ error: "Invalid email or password"});
-      }
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
+    }
 
-    const isMatch= await bcrypt.compare(password,user.password)
-    if(!isMatch)
-      {
-        return res.status(400).json({ error: "Invalid email or password"});
-      }
+    const isMatch = await bcrypt.compare(password, user.password);
 
-      next()
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
+    }
 
-  }catch(error)
-  {
-    console.log(error);
-    res.status(500).json({ error: "Server error" });
+   
+    req.user = user;
+    next();
 
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
   }
+};
 
-}
-
-export default loginAuth
+export default loginAuth;

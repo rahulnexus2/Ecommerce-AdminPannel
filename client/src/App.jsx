@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import Approute from '../routes/Approute'
+import React from "react"
 
 function App() {
- 
+  
+
   return (
     <>
-    <Approute/>
-      
+     
     </>
   )
 }

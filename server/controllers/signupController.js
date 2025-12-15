@@ -1,62 +1,59 @@
-import express from "express"
-import User from "../models/userModel.js"
-import config from "../config/config.js"
-import bcrypt from "bcryptjs"
+import User from "../models/userModel.js";
+import bcrypt from "bcryptjs";
 
+const signupController = async (req, res) => {
+  try {
+    const { username, email, password, adminKey } = req.body;
 
-const signupController=async(req,res,next)=>{
-  try{
-
-    const {username,role,email,password}=req.body;
     
-    const hashPass=await bcrypt.hash(password,10);
-
-    if(role=="admin")
-    {
-      const newAdmin=new User({
-        username:username,
-        email:email,
-        password:hashPass,
-        role:role
-      })
-
-      await newAdmin.save();
-      res.status(201).json({
-        message:"sucessfully signedup as admin",
-        id:newAdmin._id,
-        email:newAdmin.email
-      })
-
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
     }
-     else
-    {
-      const newUser=new User({
-        username:username,
-        email:email,
-        password:hashPass,
-        role:role
-      })
 
-      await newUser.save();
-      res.status(201).json({
-        message:"sucessfully signedup as user",
-        id:newUser._id,
-        email:newUser.email
-      })
-
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters long",
+      });
     }
-    next();
 
-  }catch(error)
-  {
-    res.status(500).json({
+    
+    let role = "user";
+
+    if (adminKey && adminKey === process.env.ADMIN_SECRET) {
+      role = "admin";
+    }
+
+    
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+   
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role, 
+    });
+
+    await newUser.save();
+
+    return res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    });
+
+  } catch (error) {
+    return res.status(500).json({
       message: "Server error",
       error: error.message,
-    })
-
+    });
   }
-
-}
-
+};
 
 export default signupController;

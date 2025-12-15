@@ -1,46 +1,35 @@
-import User from "../models/userModel.js"
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
-import config from "../config/config.js"
+const loginController = async (req, res) => {
+  try {
+    const user = req.user; // from loginAuth
 
-
-const loginController=async(req,res,next)=>{
-
-  try{
-
-    const token=jwt.sign({
-      
-        id:User.id,
-        email:User.email,
-
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
       },
-      config.jwt_secret,
-      {expiresIn:"7d"}
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
-    )
-
-
-    res.json({
-      message:"login sucessfull",
+    return res.status(200).json({
+      message: "Login successful",
       token,
-      user:{
-        id: User._id,
-        name: User.name,
-        email: User.email,
-      }
-    })
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
 
-  }catch(error)
-  {
-
-    console.log(error);
-    res.status(500).json({ error: "Server error" });
-
-
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
   }
+};
 
-  next();
-}
-
-
-export default loginController
+export default loginController;
