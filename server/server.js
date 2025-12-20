@@ -20,9 +20,9 @@ app.get("/", (req, res) => {
 
 
 
-app.use("/api/v1/auth", authRoute);   
-app.use("/api/v1/user", userRoute);   
-app.use("/api/v1/admin", adminRoute); 
+app.use("/api/v1/auth",authRoute);   
+app.use("/api/v1/user",userRoute);   
+app.use("/api/v1/admin",adminRoute); 
 
 
 

@@ -2,14 +2,14 @@ import jwt from "jsonwebtoken";
 
 const loginController = async (req, res) => {
   try {
-    const user = req.user; // from loginAuth
+    const user = req.user; 
 
     const token = jwt.sign(
       {
         id: user._id,
         role: user.role,
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SEC,
       { expiresIn: "7d" }
     );
 
@@ -26,7 +26,7 @@ const loginController = async (req, res) => {
 
   } catch (error) {
     return res.status(500).json({
-      message: "Server error",
+      message: "controller Server error",
       error: error.message,
     });
   }
