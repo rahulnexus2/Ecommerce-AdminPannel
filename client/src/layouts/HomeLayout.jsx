@@ -10,7 +10,6 @@ const HomeLayout = () => {
     <div>
       <PublicNav></PublicNav>
       <Home></Home>
-
       <Footer></Footer>
       
       

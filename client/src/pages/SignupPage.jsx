@@ -1,14 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {useForm} from 'react-hook-form'
+import { useLocation,useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const SignupPage = () => {
   const {
     register,
     handleSubmit, 
-    formState: { errors }
+    formState: { errors },
+    reset
+
     }=useForm();
 
-  const onSumbit=(data)=>console.log(data)
+  const [responseMsg,setresponseMsg]=useState("");
+
+    const {pathname}=useLocation();
+    const isAdmin=pathname.startsWith("/admin")
+    const navigate=useNavigate();
+
+
+  const onSumbit=async(data)=>{
+   try{ 
+    console.log(data)
+    const res=await axios.post("http://localhost:8000/api/v1/auth/signup",data)
+    console.log(res);
+    setresponseMsg();
+
+    alert("signup sucessfull")
+    reset();
+    if(isAdmin)
+      navigate("/admin/login")
+    if(isAdmin==false)
+      navigate("/user/login")
+   }catch(error)
+   {
+    
+    console.log(error.response.data.message);
+    setresponseMsg(error?.response?.data?.message);
+
+    
+   }
+  }
+
+
   return (
     <div className='min-h-screen flex items-center justify-center bg-slate-400  '>
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow">
@@ -29,17 +63,19 @@ const SignupPage = () => {
         message: 'Invalid email address format'
      }})} placeholder='enter email'/>
      {errors.email&& <p>{errors.email.message}</p>}
-
+ {isAdmin&&<>
      <input className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
       {...register("adminkey",{required:"admin key is required "})} 
      placeholder='enter adminkey'/>
-      {errors.adminkey&& <p>{errors.adminkey.message}</p>}
+      {errors.adminkey&& <p>{errors.adminkey.message}</p>}</>
 
-     <input className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+}
+     <input type="password" className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
      {...register("password",{required:"password is required",minLength:{
         value:6,message:"password must be of 6 characters"
      }} )} placeholder='enter password' />
       {errors.password&& <p>{errors.password.message}</p>}
+      {responseMsg&&<p className='text-red-600 text-center'>{responseMsg}</p>}
      <input className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
      type="submit" value="Submit Form"/>
       </form>
