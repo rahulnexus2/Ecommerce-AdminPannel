@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import {useForm} from 'react-hook-form'
-import { useLocation } from 'react-router-dom';
+import { useLocation,NavLink } from 'react-router-dom';
+
 
 
 const LoginPage = () => {
@@ -35,7 +36,6 @@ const LoginPage = () => {
       reset();
 
 
-
     }catch(error){
 
         setresMsg(error?.response?.data?.message)
@@ -60,13 +60,19 @@ const LoginPage = () => {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 
         message: 'Invalid email address format'
      }})} placeholder='enter email'/>
+      {errors.email&& <p>{errors.email.message}</p>}
 
      
 
      <input type='password' className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-      {...register("password",{required:"password is required",minLength:{
-        value:6,message:"password must be of 6 characters"
-     }} )} placeholder='enter password' />
+      {...register("password",{required:"password is required"} )} placeholder='enter password' />
+      {errors.password&& <p>{errors.password.message}</p>}
+     {isAdmin && <p className='text-blue-600 underline'>{<NavLink to="/admin/forgotpassword">forgot password</NavLink>}</p>}
+     {isUser && <p className='text-blue-600 underline'>{<NavLink to="/user/forgotpassword">forgot password</NavLink>}</p>}
+
+     {isAdmin && <p className='text-red-600 underline'>{<NavLink to="/admin/resetpassword">reset password</NavLink>}</p>}
+     {isUser && <p className='text-red-600 underline'>{<NavLink to="/user/resetpassword">reset password</NavLink>}</p>}
+     
      {resMsg&&<p className='text-red-600 text-center'>{resMsg}</p>}
      <input className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
      type="submit" value="Submit Form"/>
