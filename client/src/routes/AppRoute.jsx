@@ -8,8 +8,12 @@ import SignupPage from "../pages/SignupPage";
 import AuthLayout from "../layouts/AuthLayout";
 import ForgotPassword from "../pages/ForgotPAssword";
 import ResetPassword from "../pages/ResetPAssword";
+import AdminLayout from "../layouts/AdminLayout";
+import DashBoard from "../pages/DAshBOard";
+import NoRoute from "../components/NoRoute";
 
 const router=createBrowserRouter([
+
 
   {
     path:"/",
@@ -32,9 +36,26 @@ const router=createBrowserRouter([
       },
       {
         path:"resetpassword",element:<ResetPassword/>
-      }
-    ]
+      },
+    ],
+   
   },
+    {
+       path:"/admin/admindashboard",
+        element:<AdminLayout/>,
+        children:[
+          {
+            index:true,element:<DashBoard/>,
+          },
+          {
+            path:"dashboard",
+            element:<DashBoard/>
+            
+          }
+
+        ]  
+      }  ,   
+
   {
     path:"/user",
     element:<AuthLayout/>,
@@ -53,6 +74,10 @@ const router=createBrowserRouter([
       }
     ]
   },
+  {
+    path:"*",
+    element:<NoRoute/>
+  }
 
 
   

@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 
 const loginAuth = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password ,role } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -30,6 +30,7 @@ const loginAuth = async (req, res, next) => {
 
    
     req.user = user;
+    console.log(user);
     next();
 
   } catch (error) {

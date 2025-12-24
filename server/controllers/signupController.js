@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 const signupController = async (req, res) => {
   try {
-    const { username, email, password, adminKey } = req.body;
+    const { username, email, password, adminKey,roles } = req.body;
 
     
     if (!username || !email || !password) {
@@ -19,11 +19,9 @@ const signupController = async (req, res) => {
     }
 
     
-    let role = "user";
+    let role =roles
 
-    if (adminKey && adminKey === process.env.ADMIN_SECRET) {
-      role = "admin";
-    }
+   
 
     
     const hashedPassword = await bcrypt.hash(password, 10);

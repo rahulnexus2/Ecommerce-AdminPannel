@@ -4,18 +4,21 @@ import { useLocation,useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 const SignupPage = () => {
+  const {pathname}=useLocation();
+  const isAdmin=pathname.startsWith("/admin")
+
   const {
     register,
     handleSubmit, 
     formState: { errors },
     reset
 
-    }=useForm();
+    }=useForm({defaultValues:{
+      roles: isAdmin? "admin" :"user" }});
 
   const [responseMsg,setresponseMsg]=useState("");
 
-    const {pathname}=useLocation();
-    const isAdmin=pathname.startsWith("/admin")
+    
     const navigate=useNavigate();
 
 

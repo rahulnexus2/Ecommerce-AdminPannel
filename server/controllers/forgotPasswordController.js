@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import User from "../models/userModel.js";
 import sendEmail from "../config/mail.js";
+import { log } from "console";
 
 const forgotPassword = async (req, res) => {
   try {
@@ -20,11 +21,15 @@ const forgotPassword = async (req, res) => {
       .update(resetToken)
       .digest("hex");
 
+      console.log("token generated");
+      
     user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // 15 min
 
     await user.save();
 
     const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+
+
 
     await sendEmail({
       to: user.email,
@@ -35,10 +40,12 @@ const forgotPassword = async (req, res) => {
         <p>This link expires in 15 minutes</p>
       `,
     });
+    console.log("email sent sucessfully")
 
     res.status(200).json({ message: "Reset link sent to email" });
 
   } catch (error) {
+    console.log("forgot password error ",error.message);
     res.status(500).json({
       message: "Forgot password error",
       error: error.message,

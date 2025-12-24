@@ -2,26 +2,32 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import {useForm} from 'react-hook-form'
 import { useLocation,NavLink } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage = () => {
+  const {pathname}=useLocation();
+  const isAdmin=pathname.startsWith("/admin")
+  const isUser=pathname.startsWith("/user")
+
   const {
     register,
     handleSubmit, 
     formState: { errors },
-    reset
+    reset,  
     }=useForm();
 
-    const {pathname}=useLocation();
+    let navigate=useNavigate();
+
+    
     const [resMsg,setresMsg]=useState();
 
-    const isAdmin=pathname.startsWith("/admin")
-    const isUser=pathname.startsWith("/user")
+    
 
     const onSumbit=async(data)=>{
       try{
       console.log(data);
+
      
         const res=await axios.post("http://localhost:8000/api/v1/auth/login",data);
         console.log(res);
@@ -29,7 +35,12 @@ const LoginPage = () => {
         const token=res.data.token;
         console.log(token);
         localStorage.setItem("token",token);
+        localStorage.setItem("admin",JSON.stringify(res.data.user.role))
+        if(res.data.user.role=="admin")
+          navigate("/admin/admindashboard")
         
+          
+
       
       alert("login sucessful")
       
@@ -41,11 +52,7 @@ const LoginPage = () => {
         setresMsg(error?.response?.data?.message)
         console.log(resMsg);
         
-        
-
     }
-      
-
     }
   return (
     <div className='min-h-screen flex items-center justify-center bg-slate-400  '>
@@ -61,6 +68,7 @@ const LoginPage = () => {
         message: 'Invalid email address format'
      }})} placeholder='enter email'/>
       {errors.email&& <p>{errors.email.message}</p>}
+     
 
      
 
