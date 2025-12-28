@@ -11,20 +11,15 @@ const DashBoard = () => {
     number:500,
     "heading":"Total order"
 
-
-
   }
   const revenue={
     dollar:"$800",
     "heading":"Total Revenue"
 
-
   }
   const customer={
     number:50,
     "heading":"Total customer"
-
-
   }
   return (
     <div>
