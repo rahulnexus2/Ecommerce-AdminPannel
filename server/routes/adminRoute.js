@@ -9,6 +9,7 @@ router.use(authMiddleware);
 router.use(adminMiddleware);
 
 
+
 router.get("/dashboard", (req, res) => {
   res.status(200).json({
     message: "Admin dashboard accessed",
@@ -17,10 +18,11 @@ router.get("/dashboard", (req, res) => {
 });
 
 
-router.post("/products", (req, res) => {
+router.post("/createproducts", (req, res) => {
   res.status(201).json({
     message: "Product created (admin only)",
   });
 });
+
 
 export default router;
